@@ -57,7 +57,8 @@ def main(args=None):
     global algorithm, action_client, executor
     algorithm = deque([
         ["forward", 2, 0],
-        ["turn_left", 0, 90]
+        ["turn_left", 0, 90],
+        ["forward", 2, 0]
     ])
     rclpy.init(args=args)
     action_client = MessageTurtleActionClient()
