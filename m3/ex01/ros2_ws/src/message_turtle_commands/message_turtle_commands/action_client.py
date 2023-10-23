@@ -19,9 +19,8 @@ class MessageTurtleActionClient(Node):
         goal_msg.command = command
         goal_msg.s = s
         goal_msg.angle = angle
-        # while not self._action_client.wait_for_server(timeout_sec=1.0):
-        #     self.get_logger().info('server not available, waiting again...')
-        self._action_client.wait_for_server()
+        while not self._action_client.wait_for_server(timeout_sec=1.0):
+            self.get_logger().info('server not available, waiting again...')
         self._send_goal_future = self._action_client.send_goal_async(goal_msg, feedback_callback=self.feedback_callback)
         self._send_goal_future.add_done_callback(self.goal_response_callback)
 
@@ -49,12 +48,11 @@ def main(args=None):
     action_client = MessageTurtleActionClient()
     algorithm = [
         ["forward", 2, 0],
-        ["turn_left", 0, 90],
-        ["forward", 1, 0]
+        ["turn_right", 0, 90]
     ]
     for command in algorithm:
         action_client.send_goal(*command)
-        rclpy.spin(action_client)
+    rclpy.spin(action_client)
 
 
 if __name__ == '__main__':
