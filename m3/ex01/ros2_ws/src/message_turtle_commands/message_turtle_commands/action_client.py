@@ -1,10 +1,16 @@
 import rclpy
 from rclpy.action import ActionClient
-from rclpy.executors import MultiThreadedExecutor
+from rclpy.executors import SingleThreadedExecutor
 from rclpy.node import Node
 from tutorial_interfaces.action import MessageTurtleCommands
 import sys
 import time
+from collections import deque
+
+
+algorithm = None
+action_client = None
+executor = None
 
 
 class MessageTurtleActionClient(Node):
@@ -34,9 +40,13 @@ class MessageTurtleActionClient(Node):
         self._get_result_future.add_done_callback(self.get_result_callback)
 
     def get_result_callback(self, future):
+        global algorithm
         result = future.result().result
         self.get_logger().info('Result: {0}'.format(result.result))
-        rclpy.shutdown()
+        if len(algorithm) != 0:
+            action_client.send_goal(*algorithm.popleft())
+        else:
+            executor.shutdown()
 
     def feedback_callback(self, feedback_msg):
         feedback = feedback_msg.feedback
@@ -44,15 +54,17 @@ class MessageTurtleActionClient(Node):
 
 
 def main(args=None):
+    global algorithm, action_client, executor
+    algorithm = deque([
+        ["forward", 2, 0],
+        ["turn_left", 0, 90]
+    ])
     rclpy.init(args=args)
     action_client = MessageTurtleActionClient()
-    algorithm = [
-        ["forward", 2, 0],
-        ["turn_right", 0, 90]
-    ]
-    for command in algorithm:
-        action_client.send_goal(*command)
-    rclpy.spin(action_client)
+    executor = SingleThreadedExecutor()
+    executor.add_node(action_client)
+    action_client.send_goal(*algorithm.popleft())
+    executor.spin()
 
 
 if __name__ == '__main__':
