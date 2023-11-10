@@ -3,3 +3,4 @@ install/
 log/
 ros_tutorials/
 pychache/
+.idea/
