@@ -2,6 +2,6 @@ build/
 install/
 log/
 ros_tutorials/
-pychache/
+__pycache__/
 .idea/
 tutorial/
