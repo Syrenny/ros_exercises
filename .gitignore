@@ -1,3 +1,4 @@
+.gitignore
 build/
 install/
 log/
@@ -5,3 +6,6 @@ ros_tutorials/
 __pycache__/
 .idea/
 tutorial/
+!*.launch.py
+!*.urdf
+!*.xacro
