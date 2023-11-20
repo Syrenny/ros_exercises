@@ -35,11 +35,11 @@ def generate_launch_description():
     pkg_ros_gz_sim = get_package_share_directory('ros_gz_sim')
 
     # # Load the URDF file from "description" package
-    # urdf_file  =  os.path.join(pkg_project_description, 'urdf', 'robot.urdf')
+    # urdf_file  =  os.path.join(pkg_project_description, 'urdf', 'car.xacro.urdf')
     # with open(urdf_file, 'r') as infp:
-    #     robot_desc = infp.read()
+        # robot_desc = infp.read()
 
-    urdf_path  =  os.path.join(pkg_project_description, 'urdf', 'robot.urdf.xacro')
+    urdf_path  =  os.path.join(pkg_project_description, 'urdf', 'car.xacro')
     robot_desc = ParameterValue(Command(['xacro ', urdf_path]), value_type=str)
 
     # Setup to launch the simulator and Gazebo world

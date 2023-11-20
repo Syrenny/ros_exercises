@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-
     <gazebo>
         <!--plugin
             filename="gz-sim-pose-publisher-system"
@@ -19,20 +18,35 @@
             <odom_publish_frequency>50</odom_publish_frequency>
         </plugin-->
 
-        <plugin
+        <!-- <plugin
             filename="gz-sim-joint-state-publisher-system"
             name="gz::sim::systems::JointStatePublisher">
-        </plugin>
+        </plugin> -->
 
-        <plugin
-            filename="gz-sim-diff-drive-system"
-            name="gz::sim::systems::DiffDrive">
-            <left_joint>left_wheel_joint</left_joint>
-            <right_joint>right_wheel_joint</right_joint>
-            <child_frame_id>robot/base_link</child_frame_id>
-            <wheel_separation>0.291</wheel_separation>
-            <wheel_radius>0.033</wheel_radius>
-            <odom_publish_frequency>10</odom_publish_frequency>
+        <plugin 
+            filename="libgz-sim7-ackermann-steering-system.so"
+            name="gz::sim::v7::systems::AckermannSteering">
+
+            <steering_only>false</steering_only>
+            <!-- <use_actuator_msg></use_actuator_msg>
+            <actuator_number></actuator_number> -->
+            <!-- <steer_p_gain></steer_p_gain> -->
+
+            <left_steering_joint>front_left_steering_joint</left_steering_joint>
+            <right_steering_joint>front_right_steering_joint</right_steering_joint>
+
+            <left_joint>front_left_hub_with_wheel_joint</left_joint>
+            <right_joint>front_right_hub_with_wheel_joint</right_joint>
+
+            <left_joint>rear_left_hub_with_wheel_joint</left_joint>
+            <right_joint>rear_right_hub_with_wheel_joint</right_joint>
+
+            <wheel_separation>${chassis_width + suspension_joint_with_chassis_offset_y * 2 + (steering_radius - wheel_width / 2) * 2}</wheel_separation>
+            <kingpin_width>${chassis_width + suspension_joint_with_chassis_offset_y * 2}</kingpin_width>
+            <wheel_base>${chassis_width + suspension_joint_with_chassis_offset_y * 2 + steering_radius * 2}</wheel_base>
+            <steering_limit>0.5</steering_limit>
+            <wheel_radius>${wheel_radius}</wheel_radius>
+
         </plugin>
     </gazebo>
     
