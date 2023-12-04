@@ -13,6 +13,7 @@
 # limitations under the License.
 
 import os
+from sys import executable
 
 from ament_index_python.packages import get_package_share_directory
 
@@ -32,6 +33,7 @@ def generate_launch_description():
     # Setup project paths
     pkg_project_bringup = get_package_share_directory('robot_bringup')
     pkg_project_description = get_package_share_directory('robot_description')
+    pkg_project_app = get_package_share_directory('robot_app')
     pkg_ros_gz_sim = get_package_share_directory('ros_gz_sim')
 
     # # Load the URDF file from "description" package
