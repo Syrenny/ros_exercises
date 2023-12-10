@@ -10,3 +10,4 @@ tutorial/
 !*.urdf
 !*.xacro
 ros_gz/
+/competition
